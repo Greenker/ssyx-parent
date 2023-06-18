@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -39,6 +40,42 @@ public class CategoryController {
 
         return Result.ok(pageModel);
 
+    }
+
+    @ApiOperation("根据id查询分类")
+    @GetMapping("get/{id}")
+    public Result getById(@PathVariable Long id) {
+        return Result.ok(categoryService.getById(id));
+    }
+
+    @ApiOperation("添加分类")
+    @PostMapping("save")
+    public Result save(@RequestBody Category category) {
+        return Result.ok(categoryService.save(category));
+    }
+
+    @ApiOperation("修改分类")
+    @PutMapping("update")
+    public Result updateById(@RequestBody Category category) {
+        return Result.ok(categoryService.updateById(category));
+    }
+
+    @ApiOperation("根据id删除分类")
+    @DeleteMapping("remove/{id}")
+    public Result removeById(@PathVariable Long id) {
+        return Result.ok(categoryService.removeById(id));
+    }
+
+    @ApiOperation("批量删除")
+    @DeleteMapping("batchRemove")
+    public Result removeRows(@RequestBody List<Long> idList) {
+        return Result.ok(categoryService.removeByIds(idList));
+    }
+
+    @ApiOperation("查询所有分类")
+    @GetMapping("findAllList")
+    public Result findAllList() {
+        return Result.ok(categoryService.list());
     }
 
 }

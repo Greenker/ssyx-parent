@@ -13,6 +13,30 @@ spring:
     username: root
     password: 123456
 
+  rabbitmq:
+    host: 47.101.204.13
+    port: 5672
+    username: admin
+    password: admin
+    publisher-confirm-type: CORRELATED  #发布确认模式，消息是否被成功发送到交换机
+    publisher-returns: true
+    listener:
+      simple:
+        prefetch: 1
+        concurrency: 3
+        acknowledge-mode: manual   #消费端手动确认
+  servlet:
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 200MB
+minio:
+  endpoint: http://47.101.204.13:9000
+  accessKey: fDDV5UPtUprHLPgPhyAF
+  secretKey: jtDMfAxSCunY30acK6ePsam6DmUUnDRb7vvxTJlw
+  bucketName: ssyx
+
+
+
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
