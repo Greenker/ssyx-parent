@@ -192,4 +192,29 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo> impl
         return baseMapper.selectList(new LambdaQueryWrapper<SkuInfo>().like(SkuInfo::getSkuName, keyword));
     }
 
+    @Override
+    public List<SkuInfo> findNewPersonSkuInfoList() {
+        LambdaQueryWrapper<SkuInfo> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SkuInfo::getIsNewPerson,1).eq(SkuInfo::getPublishStatus,1)
+                .orderByDesc(SkuInfo::getStock);
+        Page<SkuInfo> param = new Page<>(1,3);
+        return baseMapper.selectPage(param, queryWrapper).getRecords();
+    }
+
+    @Override
+    public SkuInfoVo getSkuInfoVo(Long skuId) {
+        SkuInfoVo skuInfoVo = new SkuInfoVo();
+        SkuInfo skuInfo = baseMapper.selectById(skuId);
+        List<SkuImage> imageList = skuImageService.getImageListBySkuId(skuId);
+        List<SkuPoster> posterList = skuPosterService.getPosterListBySkuId(skuId);
+        List<SkuAttrValue> attrValueList = skuAttrValueService.getAttrValueListSkuById(skuId);
+
+        BeanUtils.copyProperties(skuInfo, skuInfoVo);
+        skuInfoVo.setSkuImagesList(imageList);
+        skuInfoVo.setSkuPosterList(posterList);
+        skuInfoVo.setSkuAttrValueList(attrValueList);
+
+        return skuInfoVo;
+    }
+
 }
