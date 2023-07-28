@@ -187,10 +187,9 @@ public class CartInfoServiceImpl implements CartInfoService {
 
     @Override
     public List<CartInfo> getCartCheckedList(Long userId) {
-        BoundHashOperations<String, String, CartInfo> boundHashOps = this.redisTemplate.boundHashOps(this.getCartKey(userId));
-        List<CartInfo> cartInfoCheckList = boundHashOps.values().stream().filter((cartInfo) -> {
-            return cartInfo.getIsChecked().intValue() == 1;
-        }).collect(Collectors.toList());
+        BoundHashOperations<String, String, CartInfo> boundHashOps = redisTemplate.boundHashOps(this.getCartKey(userId));
+        List<CartInfo> cartInfoCheckList = boundHashOps.values().stream()
+                .filter((cartInfo) -> cartInfo.getIsChecked().intValue() == 1).collect(Collectors.toList());
         return cartInfoCheckList;
     }
 
