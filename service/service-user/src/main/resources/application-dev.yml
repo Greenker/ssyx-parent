@@ -21,7 +21,7 @@ spring:
     time-zone: GMT+8
 
   redis:
-    host: 47.101.204.13
+    host: localhost
     port: 6377
     database: 0
     timeout: 1800000
